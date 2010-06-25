@@ -142,64 +142,66 @@
 			<li><a href="methodOverride.html">methodOverride</a></li>
 			<li><a href="staticProvider.html">staticProvider</a></li>
 		</ul><div class='mp'>
-<h2 id="Session">Session</h2>
+<h2 id="Rest">Rest</h2>
 
-<p>The <em>session</em> middleware provides persistence between requests. If we wish to supply a custom <code>Store</code> subclass, or pass options to the store itself, we can configure it like so:</p>
+<p>The <em>router</em> middleware provides a routing API similar to that of Sinatra and Express.</p>
 
-<pre><code class="js"><span class="keyword">var</span> <span class="class">MemoryStore</span> = <span class="variable">require</span>(<span class="string">'connect/middleware/session/memory'</span>).<span class="class">MemoryStore</span>;
+<pre><code class="js"><span class="keyword">function</span> <span class="variable">user</span>(<span class="variable">app</span>) {
+    <span class="variable">app</span>.<span class="variable">get</span>(<span class="string">'/users/(all.:format?)?'</span>, <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>){
+        <span class="comment">// populates req.format</span>
+        <span class="comment">// ex:</span>
+        <span class="comment">//   GET /users</span>
+        <span class="comment">//   GET /users/all</span>
+        <span class="comment">//   GET /users/all.json</span>
+        <span class="comment">//   GET /users/all.xml</span>
+    });
+
+    <span class="variable">app</span>.<span class="variable">get</span>(<span class="string">'/users/:id.:format?'</span>: <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>){
+        <span class="comment">// populates req.format</span>
+        <span class="comment">// populates params.id</span>
+        <span class="comment">// ex:</span>
+        <span class="comment">//   GET /user/5</span>
+        <span class="comment">//   GET /user/5.json</span>
+        <span class="comment">//   GET /user/5.xml</span>
+    });
+
+    <span class="variable">app</span>.<span class="variable">put</span>(<span class="string">'/user/:id'</span>, <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">params</span>){
+        <span class="comment">// populates params.id</span>
+        <span class="comment">// ex:</span>
+        <span class="comment">//   PUT /user/2</span>
+    });
+
+    <span class="variable">app</span>.<span class="variable">del</span>(<span class="string">'/user/:id/file/*'</span>, <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">params</span>){
+        <span class="comment">// populates params.id</span>
+        <span class="comment">// populates params.splat[0]</span>
+        <span class="comment">// ex:</span>
+        <span class="comment">//   PUT /user/4/file/javascripts/jquery.js</span>
+        <span class="comment">//   PUT /user/4/file/stylecss</span>
+    });
+}
+
+<span class="keyword">function</span> <span class="variable">commits</span>(<span class="variable">app</span>) {
+    <span class="comment">// RegExps too!</span>
+    <span class="variable">app</span>.<span class="variable">get</span>(<span class="regexp">/\/commit</span>\<span class="regexp">/(\w+)\.\.(\w+)\/</span>?/<span class="variable">i</span>, <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">params</span>){
+        <span class="comment">// populates params.splat[0] with first capture group</span>
+        <span class="comment">// populates params.splat[1] with second capture group</span>
+        <span class="comment">// ex:</span>
+        <span class="comment">//   GET /commit/kj4k..d3sdf</span>
+    });
+}
+
 <span class="variable">connect</span>.<span class="variable">createServer</span>(
-    <span class="variable">connect</span>.<span class="variable">cookieDecoder</span>(),
-    <span class="variable">connect</span>.<span class="variable">session</span>({ <span class="variable">store</span>: <span class="keyword">new</span> <span class="class">MemoryStore</span>({ <span class="variable">reapInterval</span>: <span class="number integer">60000</span> * <span class="number integer">10</span> }) }),
+    <span class="variable">connect</span>.<span class="variable">router</span>(<span class="variable">user</span>),
+    <span class="variable">connect</span>.<span class="variable">router</span>(<span class="variable">commits</span>),
 );
 </code></pre>
 
-<p><strong>NOTE:</strong> <em>cookieDecoder</em> must be above <em>session</em> within the stack</p>
-
-<h3 id="Options">Options</h3>
-
-<pre><code>store        Custom Store subclass
-fingerprint  Function passed sid and the request which computes a fingerprint of the user.
-             Defaults to remoteAddress and User-Agent strings.
-</code></pre>
-
-<h3 id="Store">Store</h3>
-
-<p>Abstract store which can be subclassed. To comply with <code>Store</code> you should define:</p>
-
-<pre><code>#fetch(req, callback)       Fetch session for the given request
-#commit(req, callback)      Commit the session for the given request
-#clear(callback)            Clear all sessions
-#destroy(req, callback)     Destroy session for the given request
-#length(callback)           Fetches the total number of sessions
-</code></pre>
-
-<p>Complimentary methods:</p>
-
-<pre><code>#regenerate(req, callback)  Destroys the session, and creates a new one
-#createSession()            Returns a new Session instance with generated id
-</code></pre>
-
-<h3 id="MemoryStore">MemoryStore</h3>
-
-<p>Stores session data in memory, options are as follows:</p>
-
-<pre><code>key             Cookie key used to store session ids. Defaults to "connect.sid"
-reapInterval    Interval in milliseconds used to reap stale sessions. Defaults to 10 minutes
-maxAage         Maximum session age in milliseconds. Defaults to 4 hours
-cookie          Session cookie options. Defaults to { path: '/', httpOnly: true }
-</code></pre>
-
-<h3 id="Session">Session</h3>
-
-<p>Your store interacts with instances of <code>Session</code>, however when committing / fetching sessions you may have to convert an intermediate representation back to a <code>Session</code>. The following methods are available:</p>
-
-<pre><code>#touch()        Updates the lastAccess property
-</code></pre>
+<p>Those of you looking for <em>PUT</em> and <em>DELETE</em> support may want to take a look at the <em>methodOverride</em> middleware.</p>
 
 <h3 id="See-Also">See Also</h3>
 
 <ul>
-<li>cookieDecoder</li>
+<li>methodOverride</li>
 </ul>
 
 

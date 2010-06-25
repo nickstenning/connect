@@ -141,4 +141,18 @@
 			<li><a href="conditionalGet.html">conditionalGet</a></li>
 			<li><a href="methodOverride.html">methodOverride</a></li>
 			<li><a href="staticProvider.html">staticProvider</a></li>
-		</ul>
+		</ul><div class='mp'>
+<h2 id="Conditional-GET">Conditional GET</h2>
+
+<p>The <em>conditionalGet</em> middleware supports conditional GET requests, which validates the "freshness" of a response body. Currently supports:</p>
+
+<ul>
+<li><p><em>If-Modified-Since</em>. When a response status is <em>200</em>, and <em>Last-Modified</em> less than or equal to this time, the response body and <em>Content-*</em> headers will be stripped, responding with 304 "Not Modified".</p></li>
+<li><p><em>If-None_Match</em>. Performs a similar validation, however compares the <em>ETag</em> for equality.</p></li>
+</ul>
+
+
+</div>
+    </div>
+  </body>
+</html>

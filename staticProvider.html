@@ -141,4 +141,22 @@
 			<li><a href="conditionalGet.html">conditionalGet</a></li>
 			<li><a href="methodOverride.html">methodOverride</a></li>
 			<li><a href="staticProvider.html">staticProvider</a></li>
-		</ul>
+		</ul><div class='mp'>
+<h2 id="Static-Provider">Static Provider</h2>
+
+<p>The <em>staticProvider</em> middleware provides static file serving to the given <em>root</em> directory defaulting to the <strong>CWD</strong>, for example:</p>
+
+<pre><code>connect.createServer(
+    connect.staticProvider(__dirname + '/public')
+);
+</code></pre>
+
+<h3 id="Environment-Variables">Environment Variables</h3>
+
+<pre><code>--staticRoot
+</code></pre>
+
+</div>
+    </div>
+  </body>
+</html>

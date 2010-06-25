@@ -25,7 +25,7 @@
         display: none;
       }
 	  h3 {
-		margin: 15px 0;
+		margin: 35px 0;
 		padding-left: 10px;
 	    font-size: 16px;
 		border-left: 15px solid #eee;
@@ -105,6 +105,11 @@
 	    padding: 20px 0 5px 0;
 	    font-size: 12px;
 	  }
+	  code.js { color: #111; }
+	  code.js .comment { color: #999; }
+	  code.js .string { color: #cc0000; }
+	  code.js .number { color: #0000ee; }
+	  code.js .keyword { color: #000; font-weight: bold; }
 	  a {
 	    text-decoration: none;
 	    color: #000;	
@@ -117,46 +122,49 @@
   <body>
     <div id="wrapper">
 		<ul id="menu">
-			<li class="title">Filters</li>
-			<li><a href="log.html">log</a></li>
-			<li><a href="lint.html">flash</a></li>
+			<li class="title">API</li>
+			<li><a href="api.html">extended api docs</a></li>
+			<li class="title">Middleware</li>
+			<li><a href="lint.html">lint</a></li>
 			<li><a href="flash.html">flash</a></li>
-			<li><a href="redirect.html">redirect</a></li>
-			<li><a href="cookie.html">cookie</a></li>
+			<li><a href="logger.html">logger</a></li>
+			<li><a href="format.html">format</a></li>
+			<li><a href="router.html">router</a></li>
+			<li><a href="jsonrpc.html">jsonrpc</a></li>
 			<li><a href="session.html">session</a></li>
-			<li><a href="body-decoder.html">body-decoder</a></li>
-			<li><a href="conditional-get.html">conditional-get</a></li>
-			<li><a href="response-time.html">response-time</a></li>
-			<li><a href="method-override.html">method-override</a></li>
-			<li class="title">Providers</li>
-			<li><a href="rest.html">rest</a></li>
-			<li><a href="sass.html">sass</a></li>
-			<li><a href="less.html">less</a></li>
-			<li><a href="static.html">static</a></li>
+			<li><a href="compiler.html">compiler</a></li>
+			<li><a href="redirect.html">redirect</a></li>
+			<li><a href="errorHandler.html">errorHandler</a></li>
+			<li><a href="bodyDecoder.html">bodyDecoder</a></li>
+			<li><a href="responseTime.html">responseTime</a></li>
+			<li><a href="cookieDecoder.html">cookieDecoder</a></li>
+			<li><a href="conditionalGet.html">conditionalGet</a></li>
+			<li><a href="methodOverride.html">methodOverride</a></li>
+			<li><a href="staticProvider.html">staticProvider</a></li>
 		</ul><div class='mp'>
 <h2 id="Flash">Flash</h2>
 
 <p>The <em>flash</em> middleware provides persistent messaging. This middleware requires <em>session</em> to function.</p>
 
-<pre><code>req.flash('info', 'email sent');
-req.flash('error', 'email delivery failed');
-req.flash('info', 'email re-sent');
-// =&gt; 2
+<pre><code class="js"><span class="variable">req</span>.<span class="variable">flash</span>(<span class="string">'info'</span>, <span class="string">'email sent'</span>);
+<span class="variable">req</span>.<span class="variable">flash</span>(<span class="string">'error'</span>, <span class="string">'email delivery failed'</span>);
+<span class="variable">req</span>.<span class="variable">flash</span>(<span class="string">'info'</span>, <span class="string">'email re-sent'</span>);
+<span class="comment">// =&gt; 2</span>
 
-req.flash('info');
-// =&gt; ['email sent', 'email re-sent']
+<span class="variable">req</span>.<span class="variable">flash</span>(<span class="string">'info'</span>);
+<span class="comment">// =&gt; ['email sent', 'email re-sent']</span>
 
-req.flash('info');
-// =&gt; []
+<span class="variable">req</span>.<span class="variable">flash</span>(<span class="string">'info'</span>);
+<span class="comment">// =&gt; []</span>
 
-req.flash();
-// =&gt; { error: ['email delivery failed'], info: [] }
+<span class="variable">req</span>.<span class="variable">flash</span>();
+<span class="comment">// =&gt; { error: ['email delivery failed'], info: [] }</span>
 </code></pre>
 
 <h2 id="See-Also">See Also</h2>
 
 <ul>
-<li>cookie</li>
+<li>cookieDecoder</li>
 <li>session</li>
 </ul>
 

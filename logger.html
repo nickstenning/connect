@@ -141,4 +141,44 @@
 			<li><a href="conditionalGet.html">conditionalGet</a></li>
 			<li><a href="methodOverride.html">methodOverride</a></li>
 			<li><a href="staticProvider.html">staticProvider</a></li>
-		</ul>
+		</ul><div class='mp'>
+<h2 id="Logger">Logger</h2>
+
+<p>The <em>logger</em> middleware provides common log format support, as well as custom formats, below is the default usage:</p>
+
+<pre><code>connect.createServer(
+    connect.logger(),
+);
+</code></pre>
+
+<p>A custom format can also be passed:</p>
+
+<pre><code class="js"><span class="variable">connect</span>.<span class="variable">createServer</span>(
+    <span class="variable">connect</span>.<span class="variable">logger</span>({ <span class="variable">format</span>: <span class="string">':method :url :response-time'</span> })
+);
+</code></pre>
+
+<p>The following format tokens are currently available:</p>
+
+<pre><code>:req[header]    Arbitrary request header, ex: req[Accept]
+:res[header]    Arbitrary response header, ex: res[Content-Type]
+:http-version   HTTP request version
+:response-time  Response time in milliseconds
+:remote-addr    Remote address
+:date           UTC date
+:method         Request method
+:url            Request url
+:referrer       Request referrer / referer
+:user-agent     User-Agent string
+:status         Response status
+</code></pre>
+
+<h3 id="Environment-Variables">Environment Variables</h3>
+
+<pre><code>--logFormat
+</code></pre>
+
+</div>
+    </div>
+  </body>
+</html>

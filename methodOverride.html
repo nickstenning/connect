@@ -141,4 +141,31 @@
 			<li><a href="conditionalGet.html">conditionalGet</a></li>
 			<li><a href="methodOverride.html">methodOverride</a></li>
 			<li><a href="staticProvider.html">staticProvider</a></li>
-		</ul>
+		</ul><div class='mp'>
+<h2 id="Method-Override">Method Override</h2>
+
+<p>The <em>methodOverride</em> middleware checks <code>req.body._method</code> (by default) in order to swap out the http request method.
+The <em>bodyDecoder</em> middleware will populate <code>req.body</code> when a form is submitted, which when paired with
+this middleware will allow the <em>router</em> middleware to support RESTful forms.</p>
+
+<h3 id="Options">Options</h3>
+
+<pre><code>key   Defaults to _method
+</code></pre>
+
+<h3 id="Environment-Variables">Environment Variables</h3>
+
+<pre><code>--methodOverrideKey
+</code></pre>
+
+<h3 id="See-Also">See Also</h3>
+
+<ul>
+<li>body-decoder</li>
+</ul>
+
+
+</div>
+    </div>
+  </body>
+</html>
